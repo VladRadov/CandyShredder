@@ -12,15 +12,25 @@ public class GameManager : MonoBehaviour
     private PlatformController _platformController;
     private BulletController _bulletController;
 
+    private Platform _platform;
+    private Bullet _bullet;
+
     private void Start()
     {
         _candyLineStorageController = new BlocksCandyController(_blocksCandyView);
         _candyLineStorageController.Initialize();
 
-        _platformController = new PlatformController(_platformView);
+        _platform = new Platform(_platformView.StartPosition);
+        _platformController = new PlatformController(_platformView, _platform);
         _platformController.Initialize();
 
-        _bulletController = new BulletController(_bulletView);
+        _bullet = new Bullet(_bulletView.StartPosition);
+        _bulletController = new BulletController(_bulletView, _bullet);
         _bulletController.Initialize();
+
+        _platform.OnUpdatePositionEventHandler.AddListener(_bullet.UpdatePosition);
+        _bulletView.OnTriggerPlatformEventHandler.AddListener(_platformView.SetTriggerCollider);
+        _platformView.Input.OnMouseFromPlatformEventHandler.AddListener(_bulletView.Input.OnMouseFromPlatform);
+        _platform.OnUpdatePositionEventHandler.AddListener(_bulletView.UpdatePlatformPosition);
     }
 }

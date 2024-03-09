@@ -5,19 +5,19 @@ using UnityEngine.Events;
 
 public class Platform
 {
-    private float _xPosition;
+    private Vector2 _position;
 
-    public UnityEvent<float> OnUpdatePositionEventHandler;
+    public UnityEvent<Vector2> OnUpdatePositionEventHandler;
 
-    public Platform(float xPosition)
+    public Platform(Vector2 xPosition)
     {
-        _xPosition = xPosition;
-        OnUpdatePositionEventHandler = new UnityEvent<float>();
+        _position = xPosition;
+        OnUpdatePositionEventHandler = new UnityEvent<Vector2>();
     }
 
-    public void UpdateXPosition(float value)
+    public void UpdatePosition(Vector2 newPosition)
     {
-        _xPosition = value;
-        OnUpdatePositionEventHandler?.Invoke(_xPosition);
+        _position = new Vector2(newPosition.x, _position.y);
+        OnUpdatePositionEventHandler?.Invoke(_position);
     }
 }

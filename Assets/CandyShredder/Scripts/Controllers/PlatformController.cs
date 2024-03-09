@@ -7,15 +7,15 @@ public class PlatformController
     private PlatformView _platformView;
     private Platform _platform;
 
-    public PlatformController(PlatformView platformView)
+    public PlatformController(PlatformView platformView, Platform platform)
     {
         _platformView = platformView;
-        _platform = new Platform(_platformView.StartPositionX);
+        _platform = platform;
     }
 
     public void Initialize()
     {
-        _platformView.SubscribeOnInputs(_platform.UpdateXPosition);
+        _platformView.Input.InputEventHandler.AddListener((newPosition) => { _platform.UpdatePosition(newPosition); });
         _platform.OnUpdatePositionEventHandler.AddListener(_platformView.UpdatePosition);
     }
 }

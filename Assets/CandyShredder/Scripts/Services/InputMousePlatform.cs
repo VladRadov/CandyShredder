@@ -1,9 +1,13 @@
 using UnityEngine;
+using UnityEngine.Events;
 
-public class InputMousePlatform : BaseInputManager<float>
+public class InputMousePlatform : BaseInputManager<Vector2>
 {
     private Transform _transform;
     private Vector2 _pointClick;
+
+    [HideInInspector]
+    public UnityEvent<bool> OnMouseFromPlatformEventHandler = new UnityEvent<bool>();
 
     private void Start()
     {
@@ -18,11 +22,22 @@ public class InputMousePlatform : BaseInputManager<float>
     private void OnMouseDrag()
     {
         var pointClick = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - _pointClick;
-        InputEventHandler?.Invoke(pointClick.x);
+        InputEventHandler?.Invoke(pointClick);
+    }
+
+    private void OnMouseOver()
+    {
+        OnMouseFromPlatformEventHandler?.Invoke(true);
+    }
+
+    private void OnMouseExit()
+    {
+        OnMouseFromPlatformEventHandler?.Invoke(false);
     }
 
     private void OnDestroy()
     {
         InputEventHandler.RemoveAllListeners();
+        OnMouseFromPlatformEventHandler.RemoveAllListeners();
     }
 }

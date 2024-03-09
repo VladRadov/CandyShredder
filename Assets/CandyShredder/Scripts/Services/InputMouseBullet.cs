@@ -1,15 +1,14 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class InputMouseBullet : BaseInputManager<Vector2>
 {
     private Transform _transform;
 
-    private void Start()
-    {
-        _transform = transform;
-    }
+    [HideInInspector]
+    public UnityEvent OnUpdateEventHandler = new UnityEvent();
 
-    private void Update()
+    public void UpdateInput()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -18,8 +17,27 @@ public class InputMouseBullet : BaseInputManager<Vector2>
         }
     }
 
+    public void OnMouseFromPlatform(bool isMouseOnPlatform)
+    {
+        if (isMouseOnPlatform)
+            OnUpdateEventHandler.RemoveListener(UpdateInput);
+        else
+            OnUpdateEventHandler.AddListener(UpdateInput);
+    }
+
+    private void Start()
+    {
+        _transform = transform;
+    }
+
+    private void Update()
+    {
+        OnUpdateEventHandler?.Invoke();
+    }
+
     private void OnDestroy()
     {
         InputEventHandler.RemoveAllListeners();
+        OnUpdateEventHandler.RemoveAllListeners();
     }
 }

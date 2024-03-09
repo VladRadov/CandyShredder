@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletController
@@ -7,15 +5,17 @@ public class BulletController
     private BulletView _bulletView;
     private Bullet _bullet;
 
-    public BulletController(BulletView bulletView)
+    public BulletController(BulletView bulletView, Bullet bullet)
     {
         _bulletView = bulletView;
-        _bullet = new Bullet();
+        _bullet = bullet;
     }
 
     public void Initialize()
     {
-        _bulletView.SubscribeOnInputs(_bullet.UpdatePosition);
+        _bulletView.Input.InputEventHandler.AddListener((value) => { if(_bullet.IsStopped()) _bullet.UpdateVelocity(value); });
+        _bulletView.OnCollisionEventHandler.AddListener(_bullet.UpdateVelocity);
+        _bullet.OnUpdateVelocityEventHandler.AddListener(_bulletView.UpdateVelocity);
         _bullet.OnUpdatePositionEventHandler.AddListener(_bulletView.UpdatePosition);
     }
 }
