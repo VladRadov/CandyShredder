@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CandyLineView : MonoBehaviour
 {
@@ -17,6 +18,12 @@ public class CandyLineView : MonoBehaviour
     private void Awake()
     {
         _transform = transform;
+    }
+
+    public void AddListenerBrokenCandy(UnityAction<Transform> action)
+    {
+        foreach (var candy in _candies)
+            candy.BrokeCandyEventHandler.AddListener(action);
     }
 
     private void OnValidate()

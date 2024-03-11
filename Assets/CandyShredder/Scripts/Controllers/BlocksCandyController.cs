@@ -29,7 +29,12 @@ public class BlocksCandyController
     public async void UpdateCandyLine()
     {
         for (int i = _currentIndexCandyLine; i < _currentIndexCandyLine + _blocksCandyView.Increment; i++)
-            ShowCandyLine(i);
+        {
+            var isShowedCandyLine = TryShowCandyLine(i);
+
+            if (isShowedCandyLine == false)
+                return;
+        }
 
         _currentIndexCandyLine += _blocksCandyView.Increment;
 
@@ -41,20 +46,25 @@ public class BlocksCandyController
     {
         for (int i = 0; i < _blocksCandyView.CountStart; i++)
         {
-            ShowCandyLine(i);
-            _currentIndexCandyLine = i;
+            if(TryShowCandyLine(i))
+                _currentIndexCandyLine = i;
         }
     }
 
-    private void ShowCandyLine(int indexCandyLine)
+    private bool TryShowCandyLine(int indexCandyLine)
     {
         foreach (var blockCandyLine in _blocksCandyView.ListCandyLine)
         {
+            if (indexCandyLine >= blockCandyLine.CandyLines.Count)
+                return false;
+
             foreach (var candy in blockCandyLine.CandyLines[indexCandyLine].Candies)
                 candy.SetImage(_blocksCandyView.GetRandomCandyImage());
 
             blockCandyLine.CandyLines[indexCandyLine].SetActiveCandyLine(true);
         }
+
+        return true;
     }
 
     private void SortCandyLine()

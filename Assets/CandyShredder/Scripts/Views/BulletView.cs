@@ -11,6 +11,7 @@ public class BulletView : MonoBehaviour
     [SerializeField] float _speed;
     [SerializeField] Rigidbody2D _rigidbody2D;
     [SerializeField] private InputMouseBullet _input;
+    [SerializeField] ParticleSystem _motionTrail;
 
     public Vector2 StartPosition => _startPosition;
     public InputMouseBullet Input => _input;
@@ -19,7 +20,13 @@ public class BulletView : MonoBehaviour
     [HideInInspector]
     public UnityEvent<bool> OnTriggerPlatformEventHandler = new UnityEvent<bool>();
 
-    public void UpdateVelocity(Vector2 target) => _rigidbody2D.velocity = target.normalized * _speed;
+    public void UpdateVelocity(Vector2 target)
+    {
+        if(target != Vector2.zero)
+            _motionTrail.gameObject.SetActive(true);
+
+        _rigidbody2D.velocity = target.normalized * _speed;
+    }
 
     public void UpdatePosition(Vector2 newPosition) => _transform.position = newPosition;
 
@@ -29,6 +36,7 @@ public class BulletView : MonoBehaviour
     {
         _transform = transform;
         _startPosition = transform.position;
+        _motionTrail.gameObject.SetActive(false);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -43,7 +51,7 @@ public class BulletView : MonoBehaviour
         var candyView = collision.gameObject.GetComponent<CandyView>();
         if (candyView != null)
         {
-            candyView.BrokeCandyEventHandler?.Invoke();
+            candyView.BrokeCandyEventHandler?.Invoke(candyView.transform);
             OnCollisionEventHandler?.Invoke(_platformPosition - (Vector2)_transform.position);
             OnTriggerPlatformEventHandler?.Invoke(false);
             return;
@@ -52,6 +60,7 @@ public class BulletView : MonoBehaviour
         var platfromView = collision.gameObject.GetComponent<PlatformView>();
         if (platfromView != null)
         {
+            _motionTrail.gameObject.SetActive(false);
             OnCollisionEventHandler?.Invoke(Vector2.zero);
             OnTriggerPlatformEventHandler?.Invoke(true);
         }

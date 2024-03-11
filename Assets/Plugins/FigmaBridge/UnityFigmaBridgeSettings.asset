@@ -22,4 +22,7 @@ MonoBehaviour:
   CreateScreenNameCSharpFile: 0
   GenerateNodesMarkedForExport: 1
   OnlyImportSelectedPages: 0
-  PageDataList: []
+  PageDataList:
+  - Name: Page 1
+    NodeId: 0:1
+    Selected: 1

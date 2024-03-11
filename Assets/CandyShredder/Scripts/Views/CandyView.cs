@@ -8,7 +8,7 @@ public class CandyView : MonoBehaviour
 
     [SerializeField] private FigmaImage _image;
 
-    public UnityEvent BrokeCandyEventHandler = new UnityEvent();
+    public UnityEvent<Transform> BrokeCandyEventHandler = new UnityEvent<Transform>();
 
     public void SetImage(Sprite spriteImage) => _image.sprite = spriteImage;
 
@@ -17,7 +17,7 @@ public class CandyView : MonoBehaviour
     private void Start()
     {
         _transform = transform;
-        BrokeCandyEventHandler.AddListener(() => { SetActive(false); });
+        BrokeCandyEventHandler.AddListener((position) => { SetActive(false); });
     }
 
     private void OnValidate()
