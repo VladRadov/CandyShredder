@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad400953b60bd4f46ad225a4161e2df2, type: 3}
   m_Name: FigmaImporterSettings
   m_EditorClassIdentifier: 
-  clientCode: VwhmzMviJ3BMYfJGu4Ie23cJp
-  state: 1399440284
-  token: figu_twAtmgOlQj29jxp_LO6PqTEnRvRSRxc8JfIpTXsl
-  url: https://www.figma.com/file/J70u2mbPmIyGaJSppBbLzG/!Candy-Shredder?type=design&node-id=952-15263&mode=design&t=kpLlA9BeCyvciHBo-4
+  clientCode: D0H8fxyRGoCJkakf0i3wJWAz7
+  state: 1737427605
+  token: figu_eoqa9hN0RtV8bq8tuQW1EbQOzrut2SLkQIx5cy_k
+  url: https://www.figma.com/file/J70u2mbPmIyGaJSppBbLzG/!Candy-Shredder?type=design&node-id=952-14335&mode=design&t=kpLlA9BeCyvciHBo-4
   rendersPath: FigmaImporter/Renders
