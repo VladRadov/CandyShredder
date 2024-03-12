@@ -3,8 +3,11 @@ using UnityEngine;
 
 public class SaveerDataInPlayerPrefs : SaveerData
 {
-    public override T Load<T>(string nameParameter)
+    public override T Load<T>(string nameParameter, T defaultValue)
     {
+        if (PlayerPrefs.HasKey(nameParameter) == false)
+            return defaultValue;
+
         Type inType = typeof(T);
 
         if (inType == typeof(int))

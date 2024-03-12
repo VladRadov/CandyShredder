@@ -8,7 +8,6 @@ public class BonusController
     private Transform _parent;
     private Transform _platform;
     private List<AllBonusesView> _allBonusesView;
-    private SaveerDataInPlayerPrefs _saveerDataInPlayerPrefs;
 
     public BonusController(List<BonusView> bonuses, Transform platform, Transform parent = null)
     {
@@ -19,9 +18,6 @@ public class BonusController
 
     public void SetViewAllBonuses(List<AllBonusesView> allBonusesView) => 
         _allBonusesView = allBonusesView;
-
-    public void SetSaveer(SaveerDataInPlayerPrefs saveerDataInPlayerPrefs) => 
-        _saveerDataInPlayerPrefs = saveerDataInPlayerPrefs;
 
     public void OnBrokeCandy(Transform candy)
     {
@@ -42,7 +38,7 @@ public class BonusController
         bonus.ReceivingBonusEventHandler.AddListener(() => { uiForViewAllBonus.UpdateCount(1); });
         bonus.ReceivingBonusEventHandler.AddListener(() =>
         {
-            _saveerDataInPlayerPrefs.Save<int>(bonus.Type == TypeBonus.Money ? "Money" : "Coins", uiForViewAllBonus.CountBonus);
+            ContainerSaveer.Instance.SaveerData.Save<int>(bonus.Type == TypeBonus.Money ? "Money" : "Coins", uiForViewAllBonus.CountBonus);
         });
     }
 }

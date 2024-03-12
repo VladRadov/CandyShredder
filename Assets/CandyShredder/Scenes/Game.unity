@@ -52412,7 +52412,7 @@ MonoBehaviour:
   _bulletView: {fileID: 781188042}
   _gameOverView: {fileID: 683837074}
   _bonuses:
-  - {fileID: 4988354990672919159, guid: db55a4a1846ebe04aaadf0a346552f8f, type: 3}
+  - {fileID: 5117279040428964859, guid: db55a4a1846ebe04aaadf0a346552f8f, type: 3}
   - {fileID: 359656312869514068, guid: c8cb106aee44d4c4faaa9a2bdc6a96ef, type: 3}
   _canvas: {fileID: 139310268}
   _allBonusesView:

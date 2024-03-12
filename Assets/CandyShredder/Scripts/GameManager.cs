@@ -17,15 +17,11 @@ public class GameManager : MonoBehaviour
     private BulletController _bulletController;
     private BonusController _bonusController;
 
-    private SaveerDataInPlayerPrefs _saveerDataInPlayerPrefs;
-
     private Platform _platform;
     private Bullet _bullet;
 
     private void Start()
     {
-        _saveerDataInPlayerPrefs = new SaveerDataInPlayerPrefs();
-
         _candyLineStorageController = new BlocksCandyController(_blocksCandyView);
         _candyLineStorageController.Initialize();
 
@@ -39,7 +35,6 @@ public class GameManager : MonoBehaviour
 
         _bonusController = new BonusController(_bonuses, _platformView.transform, _canvas);
         _bonusController.SetViewAllBonuses(_allBonusesView);
-        _bonusController.SetSaveer(_saveerDataInPlayerPrefs);
 
         _platform.OnUpdatePositionEventHandler.AddListener(_bullet.UpdatePosition);
         _bulletView.OnTriggerPlatformEventHandler.AddListener(_platformView.SetTriggerCollider);
@@ -47,7 +42,7 @@ public class GameManager : MonoBehaviour
         _platform.OnUpdatePositionEventHandler.AddListener(_bulletView.UpdatePlatformPosition);
         _platformView.OnGameOverEvetHandler.AddListener(() => 
         {
-            _gameOverView.ViewCountBonuses(_saveerDataInPlayerPrefs.Load<int>("Money"), _saveerDataInPlayerPrefs.Load<int>("Coins"));
+            _gameOverView.ViewCountBonuses(ContainerSaveer.Instance.SaveerData.Load<int>("Money", 0), ContainerSaveer.Instance.SaveerData.Load<int>("Coins", 0));
             _gameOverView.OnGameOver();
         });
 

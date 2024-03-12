@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class MainMenuView : MonoBehaviour
 {
@@ -11,7 +10,8 @@ public class MainMenuView : MonoBehaviour
     [SerializeField] private Button _tools;
     [SerializeField] private LoaderView _loaderView;
     [SerializeField] private ItemView _helpPlayView;
-    [SerializeField] private ItemView _toolsView;
+    [SerializeField] private ToolsView _toolsView;
+    [SerializeField] private TextMeshProUGUI _viewMaxScore;
 
     private void Start()
     {
@@ -25,5 +25,7 @@ public class MainMenuView : MonoBehaviour
 
         _help.onClick.AddListener(_helpPlayView.Show);
         _tools.onClick.AddListener(_toolsView.Show);
+
+        _viewMaxScore.text = ContainerSaveer.Instance.SaveerData.Load<int>("Coins", 0).ToString();
     }
 }
