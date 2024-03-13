@@ -3,6 +3,22 @@ using UnityEngine;
 
 public class SaveerDataInPlayerPrefs : SaveerData
 {
+    private readonly string _keyNumberLevel = "Level";
+    private readonly string _keyCoins = "Coins";
+    private readonly string _keyMoney = "Money";
+    private readonly string _keyIsTurnSound = "IsTurnSound";
+    private readonly string _keyIsTurnMusic = "IsTurnMusic";
+    private readonly string _keyCountBalls = "CountBalls";
+    private readonly string _keyCountPlaforms = "CountPlaforms";
+
+    public int Level { get { return Load<int>(_keyNumberLevel, 1); } set { Save<int>(_keyNumberLevel, value); } }
+    public int Coins { get { return Load<int>(_keyCoins, 0); } set { Save<int>(_keyCoins, value); } }
+    public int Money { get { return Load<int>(_keyMoney, 0); } set { Save<int>(_keyMoney, value); } }
+    public int IsTurnSound { get { return Load<int>(_keyIsTurnSound, 0); } set { Save<int>(_keyIsTurnSound, value); } }
+    public int IsTurnMusic { get { return Load<int>(_keyIsTurnMusic, 0); } set { Save<int>(_keyIsTurnMusic, value); } }
+    public int CountBalls { get { return Load<int>(_keyCountBalls, 1); } set { Save<int>(_keyCountBalls, value); } }
+    public int CountPlaforms { get { return Load<int>(_keyCountPlaforms, 1); } set { Save<int>(_keyCountPlaforms, value); } }
+
     public override T Load<T>(string nameParameter, T defaultValue)
     {
         if (PlayerPrefs.HasKey(nameParameter) == false)

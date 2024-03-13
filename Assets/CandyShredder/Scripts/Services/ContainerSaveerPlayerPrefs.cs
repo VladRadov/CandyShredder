@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class ContainerSaveer : MonoBehaviour
+public class ContainerSaveerPlayerPrefs : MonoBehaviour
 {
-    public static ContainerSaveer Instance { get; private set; }
-    public SaveerData SaveerData { get; private set; }
+    public static ContainerSaveerPlayerPrefs Instance { get; private set; }
+    public SaveerDataInPlayerPrefs SaveerData { get; private set; }
 
     private void Awake()
     {

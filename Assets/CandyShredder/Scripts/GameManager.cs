@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
         _platform.OnUpdatePositionEventHandler.AddListener(_bulletView.UpdatePlatformPosition);
         _platformView.OnGameOverEvetHandler.AddListener(() => 
         {
-            _gameOverView.ViewCountBonuses(ContainerSaveer.Instance.SaveerData.Load<int>("Money", 0), ContainerSaveer.Instance.SaveerData.Load<int>("Coins", 0));
+            _gameOverView.ViewCountBonuses(ContainerSaveerPlayerPrefs.Instance.SaveerData.Money, ContainerSaveerPlayerPrefs.Instance.SaveerData.Coins);
             _gameOverView.OnGameOver();
         });
 

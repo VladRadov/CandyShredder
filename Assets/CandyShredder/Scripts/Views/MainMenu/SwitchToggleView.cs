@@ -11,11 +11,17 @@ public class SwitchToggleView : MonoBehaviour
 
     public int LoadToggleState()
     {
-        var value = ContainerSaveer.Instance.SaveerData.Load<int>(_keySaveerTool, 1);
-        _toggleImage.sprite = value == 1 ? _togglwOn : _togglwOff;
+        var value = LoadDataState();
+        UpdateSpriteToggle(value);
 
         return value;
     }
+
+    public virtual int LoadDataState() => ContainerSaveerPlayerPrefs.Instance.SaveerData.Load<int>(_keySaveerTool, 1);
+
+    public virtual void SaveDataState(int value) => ContainerSaveerPlayerPrefs.Instance.SaveerData.Save<int>(_keySaveerTool, value);
+
+    public void UpdateSpriteToggle(int value) => _toggleImage.sprite = value == 1 ? _togglwOn : _togglwOff;
 
     private void Start()
     {
@@ -31,7 +37,7 @@ public class SwitchToggleView : MonoBehaviour
     {
         var currentState = LoadToggleState();
         var nextState = currentState == 1 ? 0 : 1;
-        ContainerSaveer.Instance.SaveerData.Save<int>(_keySaveerTool, nextState);
+        SaveDataState(nextState);
         _toggleImage.sprite = nextState == 1 ? _togglwOn : _togglwOff;
     }
 

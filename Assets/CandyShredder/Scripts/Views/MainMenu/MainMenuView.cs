@@ -11,6 +11,7 @@ public class MainMenuView : MonoBehaviour
     [SerializeField] private LoaderView _loaderView;
     [SerializeField] private ItemView _helpPlayView;
     [SerializeField] private ToolsView _toolsView;
+    [SerializeField] private ShopView _shopView;
     [SerializeField] private TextMeshProUGUI _viewMaxScore;
 
     private void Start()
@@ -25,7 +26,8 @@ public class MainMenuView : MonoBehaviour
 
         _help.onClick.AddListener(_helpPlayView.Show);
         _tools.onClick.AddListener(_toolsView.Show);
+        _shop.onClick.AddListener(_shopView.Show);
 
-        _viewMaxScore.text = ContainerSaveer.Instance.SaveerData.Load<int>("Coins", 0).ToString();
+        _viewMaxScore.text = ContainerSaveerPlayerPrefs.Instance.SaveerData.Coins.ToString();
     }
 }

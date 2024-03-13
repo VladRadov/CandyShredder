@@ -38,7 +38,10 @@ public class BonusController
         bonus.ReceivingBonusEventHandler.AddListener(() => { uiForViewAllBonus.UpdateCount(1); });
         bonus.ReceivingBonusEventHandler.AddListener(() =>
         {
-            ContainerSaveer.Instance.SaveerData.Save<int>(bonus.Type == TypeBonus.Money ? "Money" : "Coins", uiForViewAllBonus.CountBonus);
+            if (bonus.Type == TypeBonus.Money)
+                ContainerSaveerPlayerPrefs.Instance.SaveerData.Money = uiForViewAllBonus.CountBonus;
+            else if (bonus.Type == TypeBonus.Coin)
+                ContainerSaveerPlayerPrefs.Instance.SaveerData.Coins = uiForViewAllBonus.CountBonus;
         });
     }
 }
