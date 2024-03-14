@@ -15,15 +15,26 @@ public class CandyLineView : MonoBehaviour
 
     public void SetActiveCandyLine(bool value) => _transform.gameObject.SetActive(value);
 
-    private void Awake()
-    {
-        _transform = transform;
-    }
-
     public void AddListenerBrokenCandy(UnityAction<Transform> action)
     {
         foreach (var candy in _candies)
             candy.BrokeCandyEventHandler.AddListener(action);
+    }
+
+    public bool TryBrokenAllCandiesInLine()
+    {
+        foreach (var candy in _candies)
+        {
+            if (candy.gameObject.activeSelf)
+                return false;
+        }
+
+        return true;
+    }
+
+    private void Awake()
+    {
+        _transform = transform;
     }
 
     private void OnValidate()

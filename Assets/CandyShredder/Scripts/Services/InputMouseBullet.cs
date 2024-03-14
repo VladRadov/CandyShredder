@@ -28,6 +28,7 @@ public class InputMouseBullet : BaseInputManager<Vector2>
     private void Start()
     {
         _transform = transform;
+        OnUpdateEventHandler.AddListener(UpdateInput);
     }
 
     private void Update()

@@ -51,6 +51,21 @@ public class LoaderView : MonoBehaviour
             progressBlock.SetActive(false);
     }
 
+    private void Start()
+    {
+        HideBlocksProgressLoader();
+        LoadingStartGame();
+    }
+
+    private async void LoadingStartGame()
+    {
+        for (int i = 0; i < 101; i++)
+        {
+            UpdatePercentLoading(i);
+            await Task.Delay(20);
+        }
+    }
+
     private void OnValidate()
     {
         if (_canvas == null)

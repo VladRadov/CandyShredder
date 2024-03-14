@@ -14,9 +14,13 @@ public class CandyView : MonoBehaviour
 
     public void SetActive(bool value) => _transform.gameObject.SetActive(value);
 
-    private void Start()
+    private void Awake()
     {
         _transform = transform;
+    }
+
+    private void Start()
+    {
         BrokeCandyEventHandler.AddListener((position) => { SetActive(false); });
     }
 

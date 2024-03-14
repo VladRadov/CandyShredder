@@ -20,8 +20,8 @@ public class SaveerDataInPlayerPrefs : SaveerData
     public int Level { get { return Load<int>(_keyNumberLevel, 1); } set { Save<int>(_keyNumberLevel, value); } }
     public int Coins { get { return Load<int>(_keyCoins, 0); } set { Save<int>(_keyCoins, value); } }
     public int Money { get { return Load<int>(_keyMoney, 0); } set { Save<int>(_keyMoney, value); } }
-    public int IsTurnSound { get { return Load<int>(_keyIsTurnSound, 0); } set { Save<int>(_keyIsTurnSound, value); } }
-    public int IsTurnMusic { get { return Load<int>(_keyIsTurnMusic, 0); } set { Save<int>(_keyIsTurnMusic, value); } }
+    public int IsTurnSound { get { return Load<int>(_keyIsTurnSound, 1); } set { Save<int>(_keyIsTurnSound, value); } }
+    public int IsTurnMusic { get { return Load<int>(_keyIsTurnMusic, 1); } set { Save<int>(_keyIsTurnMusic, value); } }
     public int CountBalls { get { return Load<int>(_keyCountBalls, 1); } set { Save<int>(_keyCountBalls, value); } }
     public int CountPlaforms { get { return Load<int>(_keyCountPlaforms, 1); } set { Save<int>(_keyCountPlaforms, value); } }
     public string PurchasedBackgrounds { get { return Load<string>(_keyPurchasedBackgrounds, "base"); } set { Save<string>(_keyPurchasedBackgrounds, value); } }

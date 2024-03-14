@@ -19,4 +19,9 @@ public class ConfettiView : MonoBehaviour
         var newPosition = Vector3.Lerp(_transform.position, _transform.position + Vector3.down, _speed);
         _transform.position = newPosition;
     }
+
+    private void OnBecameInvisible()
+    {
+        _transform.position = new Vector3(_transform.position.x, _positionY, _transform.position.z);
+    }
 }

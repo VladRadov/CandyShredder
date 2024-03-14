@@ -5,13 +5,11 @@ using System.Threading.Tasks;
 public class BlocksCandyController
 {
     private BlocksCandyView _blocksCandyView;
-    private int _currentIndexCandyLine;
     private CancellationTokenSource _tokenSource;
 
     public BlocksCandyController(BlocksCandyView blocksCandyView)
     {
         _blocksCandyView = blocksCandyView;
-        _currentIndexCandyLine = 0;
         _tokenSource = new CancellationTokenSource();
     }
 
@@ -30,18 +28,16 @@ public class BlocksCandyController
 
     public async void UpdateCandyLine()
     {
-        for (int i = _currentIndexCandyLine; i < _currentIndexCandyLine + _blocksCandyView.Increment; i++)
+        try
         {
-            var isShowedCandyLine = TryShowCandyLine(i);
-
-            if (isShowedCandyLine == false)
-                return;
+            TryShowCandyLine();
+            await Task.Delay(_blocksCandyView.IncrementPerSecond != -1 ? (int)(_blocksCandyView.IncrementPerSecond * 1000) : -1, _tokenSource.Token);
+            BaseUpdate();
         }
+        catch (TaskCanceledException exception)
+        {
 
-        _currentIndexCandyLine += _blocksCandyView.Increment;
-
-        await Task.Delay(_blocksCandyView.IncrementPerSecond != -1 ? (int)(_blocksCandyView.IncrementPerSecond * 1000) : -1, _tokenSource.Token);
-        BaseUpdate();
+        }
     }
 
     public void OnResumeGame()
@@ -53,26 +49,29 @@ public class BlocksCandyController
     private void ShowCandyLineStart()
     {
         for (int i = 0; i < _blocksCandyView.CountStart; i++)
-        {
-            if(TryShowCandyLine(i))
-                _currentIndexCandyLine = i;
-        }
+            TryShowCandyLine();
     }
 
-    private bool TryShowCandyLine(int indexCandyLine)
+    private void TryShowCandyLine()
     {
         foreach (var blockCandyLine in _blocksCandyView.ListCandyLine)
         {
-            if (indexCandyLine >= blockCandyLine.CandyLines.Count)
-                return false;
+            for (int i = 0; i < _blocksCandyView.Increment; i++)
+            {
+                var indexCandyLine = blockCandyLine.GetIndexFreeCandyLine();
 
-            foreach (var candy in blockCandyLine.CandyLines[indexCandyLine].Candies)
-                candy.SetImage(_blocksCandyView.GetRandomCandyImage());
+                if (indexCandyLine >= blockCandyLine.CandyLines.Count)
+                    return;
 
-            blockCandyLine.CandyLines[indexCandyLine].SetActiveCandyLine(true);
+                foreach (var candy in blockCandyLine.CandyLines[indexCandyLine].Candies)
+                {
+                    candy.SetImage(_blocksCandyView.GetRandomCandyImage());
+                    candy.SetActive(true);
+                }
+
+                blockCandyLine.CandyLines[indexCandyLine].SetActiveCandyLine(true);
+            }
         }
-
-        return true;
     }
 
     private void SortCandyLine()

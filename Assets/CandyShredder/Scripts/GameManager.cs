@@ -45,7 +45,6 @@ public class GameManager : MonoBehaviour
         _bonusController.SetViewAllBonuses(_allBonusesView);
 
         _inputMouseBullet.InputEventHandler.AddListener(_bulletController.OnInputEvent);
-        _bulletController.SubscribeOnTriggerPlatform(_platformView.SetTriggerCollider);
         _platformView.Input.OnMouseFromPlatformEventHandler.AddListener(_inputMouseBullet.OnMouseFromPlatform);
         _platform.OnUpdatePositionEventHandler.AddListener(_bulletController.OnChangePostionPlatform);
         _platformView.OnGameOverEvetHandler.AddListener(() => 

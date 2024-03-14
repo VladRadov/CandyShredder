@@ -6,10 +6,12 @@ public class BulletView : MonoBehaviour
 {
     private Transform _transform;
     private Vector2 _platformPosition;
+    private LayerMask _layerMaskRigidboby;
 
     [SerializeField] private Vector2 _startPosition;
     [SerializeField] private float _speed;
     [SerializeField] private Rigidbody2D _rigidbody2D;
+    [SerializeField] private CircleCollider2D _circleCollider2;
     [SerializeField] private InputMouseBullet _input;
     [SerializeField] private ParticleSystem _motionTrail;
 
@@ -17,12 +19,10 @@ public class BulletView : MonoBehaviour
     public InputMouseBullet Input => _input;
     [HideInInspector]
     public UnityEvent<Vector2> OnCollisionEventHandler = new UnityEvent<Vector2>();
-    [HideInInspector]
-    public UnityEvent<bool> OnTriggerPlatformEventHandler = new UnityEvent<bool>();
 
     public void UpdateVelocity(Vector2 target)
     {
-        if(target != Vector2.zero)
+        if (target != Vector2.zero)
             _motionTrail.gameObject.SetActive(true);
 
         _rigidbody2D.velocity = target.normalized * _speed;
@@ -44,7 +44,9 @@ public class BulletView : MonoBehaviour
         if (wallView != null)
         {
             OnCollisionEventHandler?.Invoke(collision.relativeVelocity);
-            OnTriggerPlatformEventHandler?.Invoke(false);
+
+            _layerMaskRigidboby = LayerMask.GetMask("Bonus", "Bullet");
+            _rigidbody2D.excludeLayers = _layerMaskRigidboby;
         }
 
         var candyView = collision.gameObject.GetComponent<CandyView>();
@@ -52,7 +54,9 @@ public class BulletView : MonoBehaviour
         {
             candyView.BrokeCandyEventHandler?.Invoke(candyView.transform);
             OnCollisionEventHandler?.Invoke(_platformPosition - (Vector2)_transform.position);
-            OnTriggerPlatformEventHandler?.Invoke(false);
+
+            _layerMaskRigidboby = LayerMask.GetMask("Bonus", "Bullet");
+            _rigidbody2D.excludeLayers = _layerMaskRigidboby;
             return;
         }
 
@@ -61,7 +65,9 @@ public class BulletView : MonoBehaviour
         {
             _motionTrail.gameObject.SetActive(false);
             OnCollisionEventHandler?.Invoke(Vector2.zero);
-            OnTriggerPlatformEventHandler?.Invoke(true);
+
+            _layerMaskRigidboby = LayerMask.GetMask("Platform", "Bonus", "Bullet");
+            _rigidbody2D.excludeLayers = _layerMaskRigidboby;
         }
     }
 
@@ -69,11 +75,13 @@ public class BulletView : MonoBehaviour
     {
         if (_rigidbody2D == null)
             _rigidbody2D = transform.GetComponent<Rigidbody2D>();
+
+        if (_circleCollider2 == null)
+            _circleCollider2 = transform.GetComponent<CircleCollider2D>();
     }
 
     private void OnDestroy()
     {
         OnCollisionEventHandler.RemoveAllListeners();
-        OnTriggerPlatformEventHandler.RemoveAllListeners();
     }
 }

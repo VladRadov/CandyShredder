@@ -47,12 +47,12 @@ public class BonusView : MonoBehaviour
             _transform.position = Vector3.Lerp(_transform.position, new Vector3(_positionPlatform.position.x, _positionPlatform.position.y, _transform.position.z), _sensitivity);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         OnInteractionWithPlatform(collision.gameObject);
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
         OnInteractionWithPlatform(collision.gameObject);
     }

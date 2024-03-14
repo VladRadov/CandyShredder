@@ -23,12 +23,6 @@ public class PlatformView : MonoBehaviour
 
     public void UpdatePosition(Vector2 newPosition) => _transform.position = new Vector3(newPosition.x, _transform.position.y, _transform.position.z);
 
-    public void SetTriggerCollider(bool value)
-    {
-        _circleCollider2D.isTrigger = value;
-        _boxCollider2D.isTrigger = value;
-    }
-
     public void SetSprite(int countPlatform)
     {
         if (countPlatform == 1)

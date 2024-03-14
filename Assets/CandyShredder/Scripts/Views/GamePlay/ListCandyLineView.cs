@@ -1,25 +1,31 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class ListCandyLineView : MonoBehaviour
 {
-    private Transform _transform;
-
     [SerializeField] private List<CandyLineView> _listCandyLine;
 
     public List<CandyLineView> CandyLines => _listCandyLine;
-
-    private void Awake()
-    {
-        _transform = transform;
-    }
 
     public void AddListenerBrokenCandy(UnityAction<Transform> action)
     {
         foreach (var listCandyLine in _listCandyLine)
             listCandyLine.AddListenerBrokenCandy(action);
+    }
+
+    public int GetIndexFreeCandyLine()
+    {
+        for (int i = _listCandyLine.Count - 1; i >= 0; i--)
+        {
+            if (_listCandyLine[i] == null)
+                continue;
+
+            if(_listCandyLine[i].gameObject.activeSelf && _listCandyLine[i].TryBrokenAllCandiesInLine() == false)
+                return _listCandyLine.IndexOf(_listCandyLine[i + 1]);
+        }
+
+        return 0;
     }
 
     private void OnValidate()

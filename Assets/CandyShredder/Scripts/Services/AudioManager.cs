@@ -8,6 +8,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource _audioSourceActions;
     [SerializeField] private List<Sound> _sounds;
     [SerializeField] private List<Sound> _soundsAction;
+    [Header("Кол-во мсек. прослушивания платной музыки в магазине")]
+    [SerializeField] private int _secondsPlayPaidMusic = 4000;
 
     public static AudioManager Instance { get; private set; }
 
@@ -77,9 +79,14 @@ public class AudioManager : MonoBehaviour
             _audioSource.clip = findedSound.Music;
             _audioSource.loop = findedSound.IsLoop;
             _audioSource.PlayDelayed(0.1f);
-            await Task.Delay(4000);
-            if(_audioSource.clip.name == findedSound.Music.name)
-                ChangeSound();
+            await Task.Delay(_secondsPlayPaidMusic);
+            if (_audioSource.clip.name == findedSound.Music.name)
+            {
+                if (ContainerSaveerPlayerPrefs.Instance.SaveerData.IsTurnMusic == 0)
+                    StopSound();
+                else
+                    ChangeSound();
+            }
         }
     }
 

@@ -16,7 +16,8 @@ public class BulletController
     public void OnInputEvent(Vector2 value)
     {
         var findedBullet = _bullets.Find(bulletTemp => bulletTemp.IsStopped());
-        if(findedBullet != null)
+
+        if (findedBullet != null)
             findedBullet.UpdateVelocity(value);
     }
 
@@ -31,12 +32,6 @@ public class BulletController
             _bulletsView.Add(bulletView);
             _bullets.Add(bullet);
         }
-    }
-
-    public void SubscribeOnTriggerPlatform(UnityAction<bool> action)
-    {
-        foreach (var bulletView in _bulletsView)
-            bulletView.OnTriggerPlatformEventHandler.AddListener(action);
     }
 
     public void OnChangePostionPlatform(Vector2 position)
