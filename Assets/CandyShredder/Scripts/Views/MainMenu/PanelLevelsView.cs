@@ -7,7 +7,6 @@ public class PanelLevelsView : MonoBehaviour
     [SerializeField] Button _upLevel;
     [SerializeField] Button _downLevel;
     [SerializeField] TextMeshProUGUI _viewLevel;
-    [SerializeField] int _maxLevel;
 
     private void Start()
     {
@@ -19,7 +18,7 @@ public class PanelLevelsView : MonoBehaviour
 
     private void OnUpLevel()
     {
-        if (ContainerSaveerPlayerPrefs.Instance.SaveerData.Level < _maxLevel)
+        if (ContainerSaveerPlayerPrefs.Instance.SaveerData.Level < ContainerSaveerPlayerPrefs.Instance.SaveerData.CountLevels)
         {
             ContainerSaveerPlayerPrefs.Instance.SaveerData.Level += 1;
             UpdateLevel();
@@ -36,10 +35,4 @@ public class PanelLevelsView : MonoBehaviour
     }
 
     private void UpdateLevel() => _viewLevel.text = ContainerSaveerPlayerPrefs.Instance.SaveerData.Level.ToString();
-
-    private void OnValidate()
-    {
-        if (_maxLevel <= 0)
-            _maxLevel = 1;
-    }
 }

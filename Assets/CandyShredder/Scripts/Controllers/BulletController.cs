@@ -1,21 +1,57 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BulletController
 {
-    private BulletView _bulletView;
-    private Bullet _bullet;
+    private List<BulletView> _bulletsView;
+    private List<Bullet> _bullets;
 
-    public BulletController(BulletView bulletView, Bullet bullet)
+    public BulletController()
     {
-        _bulletView = bulletView;
-        _bullet = bullet;
+        _bulletsView = new List<BulletView>();
+        _bullets = new List<Bullet>();
     }
 
-    public void Initialize()
+    public void OnInputEvent(Vector2 value)
     {
-        _bulletView.Input.InputEventHandler.AddListener((value) => { if(_bullet.IsStopped()) _bullet.UpdateVelocity(value); });
-        _bulletView.OnCollisionEventHandler.AddListener(_bullet.UpdateVelocity);
-        _bullet.OnUpdateVelocityEventHandler.AddListener(_bulletView.UpdateVelocity);
-        _bullet.OnUpdatePositionEventHandler.AddListener(_bulletView.UpdatePosition);
+        var findedBullet = _bullets.Find(bulletTemp => bulletTemp.IsStopped());
+        if(findedBullet != null)
+            findedBullet.UpdateVelocity(value);
+    }
+
+    public void CreateBullets(BulletView bulletViewPrefab, Transform parent)
+    {
+        for (int i = 0; i < ContainerSaveerPlayerPrefs.Instance.SaveerData.CountBalls; i++)
+        {
+            var bulletView = Object.Instantiate(bulletViewPrefab, parent);
+            var bullet = new Bullet(bulletView.transform.position);
+            Initialize(bulletView, bullet);
+
+            _bulletsView.Add(bulletView);
+            _bullets.Add(bullet);
+        }
+    }
+
+    public void SubscribeOnTriggerPlatform(UnityAction<bool> action)
+    {
+        foreach (var bulletView in _bulletsView)
+            bulletView.OnTriggerPlatformEventHandler.AddListener(action);
+    }
+
+    public void OnChangePostionPlatform(Vector2 position)
+    {
+        foreach (var bulletView in _bulletsView)
+            bulletView.UpdatePlatformPosition(position);
+
+        foreach (var bullet in _bullets)
+            bullet.UpdatePosition(position);
+    }
+
+    private void Initialize(BulletView bulletView, Bullet bullet)
+    {
+        bulletView.OnCollisionEventHandler.AddListener(bullet.UpdateVelocity);
+        bullet.OnUpdateVelocityEventHandler.AddListener(bulletView.UpdateVelocity);
+        bullet.OnUpdatePositionEventHandler.AddListener(bulletView.UpdatePosition);
     }
 }

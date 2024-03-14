@@ -9,7 +9,9 @@ public class ContainerSaveerPlayerPrefs : MonoBehaviour
     {
         SaveerData = new SaveerDataInPlayerPrefs();
 
-        if (Instance == null)
+        if (Instance != null)
+            Destroy(this.gameObject);
+        else
         {
             Instance = this;
             DontDestroyOnLoad(Instance);

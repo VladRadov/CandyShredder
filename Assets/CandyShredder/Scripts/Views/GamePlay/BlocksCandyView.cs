@@ -11,12 +11,10 @@ public class BlocksCandyView : MonoBehaviour
     [SerializeField] private int _countStart = 3;
     [Header("Значение прироста линий конфет за один шаг")]
     [SerializeField] private int _increment = 1;
-    [Header("Период отображения линии конфет(в секундах)")]
-    [SerializeField] private float _incrementPerSecond = 16;
 
     public int CountStart => _countStart;
     public int Increment => _increment;
-    public float IncrementPerSecond => _incrementPerSecond;
+    public float IncrementPerSecond { get; set; }
     public List<ListCandyLineView> ListCandyLine => _blocksCandyLine;
 
     public Sprite GetRandomCandyImage()

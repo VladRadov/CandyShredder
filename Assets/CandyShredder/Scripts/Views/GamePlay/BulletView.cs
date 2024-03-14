@@ -5,13 +5,13 @@ using UnityEngine.Events;
 public class BulletView : MonoBehaviour
 {
     private Transform _transform;
-    private Vector2 _startPosition;
     private Vector2 _platformPosition;
 
-    [SerializeField] float _speed;
-    [SerializeField] Rigidbody2D _rigidbody2D;
+    [SerializeField] private Vector2 _startPosition;
+    [SerializeField] private float _speed;
+    [SerializeField] private Rigidbody2D _rigidbody2D;
     [SerializeField] private InputMouseBullet _input;
-    [SerializeField] ParticleSystem _motionTrail;
+    [SerializeField] private ParticleSystem _motionTrail;
 
     public Vector2 StartPosition => _startPosition;
     public InputMouseBullet Input => _input;
@@ -35,7 +35,6 @@ public class BulletView : MonoBehaviour
     private void Start()
     {
         _transform = transform;
-        _startPosition = transform.position;
         _motionTrail.gameObject.SetActive(false);
     }
 

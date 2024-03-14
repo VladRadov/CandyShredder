@@ -63,6 +63,7 @@ MonoBehaviour:
   _sensitivity: 0.009
   _minDistanceStop: 0.1
   _typeBonus: 0
+  _soundAction: {fileID: 11400000, guid: 9690ca744a439294e880ac8700be94bf, type: 2}
   ReceivingBonusEventHandler:
     m_PersistentCalls:
       m_Calls:

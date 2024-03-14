@@ -8,7 +8,6 @@ public class MainMenuView : MonoBehaviour
     [SerializeField] private Button _help;
     [SerializeField] private Button _shop;
     [SerializeField] private Button _tools;
-    [SerializeField] private LoaderView _loaderView;
     [SerializeField] private ItemView _helpPlayView;
     [SerializeField] private ToolsView _toolsView;
     [SerializeField] private ShopView _shopView;
@@ -16,12 +15,10 @@ public class MainMenuView : MonoBehaviour
 
     private void Start()
     {
-        ManagerScenes.Instance.LoadingSceneEventHandler.AddListener((valuePercent) => { _loaderView.UpdatePercentLoading(valuePercent); });
-        _startGame.onClick.AddListener(() => { ManagerScenes.Instance.LoadAsyncFromCoroutine("Game"); });
         _startGame.onClick.AddListener(() =>
         {
-            gameObject.SetActive(false);
-            _loaderView.gameObject.SetActive(true);
+            ManagerScenes.Instance.LoadAsyncFromCoroutine("Game");
+            transform.parent.gameObject.SetActive(false);
         });
 
         _help.onClick.AddListener(_helpPlayView.Show);

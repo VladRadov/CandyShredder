@@ -8,9 +8,11 @@ public class BonusView : MonoBehaviour
 
     [SerializeField] private float _sensitivity = 0.01f;
     [SerializeField] private float _minDistanceStop = 0.1f;
-    [SerializeField] TypeBonus _typeBonus;
+    [SerializeField] private TypeBonus _typeBonus;
+    [SerializeField] private Sound _soundAction;
 
     public TypeBonus Type => _typeBonus;
+    public Sound SoundAction => _soundAction;
 
     [HideInInspector]
     public UnityEvent ReceivingBonusEventHandler = new UnityEvent();

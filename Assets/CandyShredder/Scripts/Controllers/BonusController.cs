@@ -29,6 +29,7 @@ public class BonusController
         bonusView.transform.position = candy.position;
         bonusView.View();
         bonusView.Move(_platform);
+        AudioManager.Instance.PlaySound(bonusView.SoundAction.Name);
     }
 
     private void FindUIForTypeBonus(BonusView bonus)
@@ -36,12 +37,5 @@ public class BonusController
         var uiForViewAllBonus = _allBonusesView.Find(bonusView => bonusView.BonusType == bonus.Type);
         bonus.ReceivingBonusEventHandler.RemoveAllListeners();
         bonus.ReceivingBonusEventHandler.AddListener(() => { uiForViewAllBonus.UpdateCount(1); });
-        bonus.ReceivingBonusEventHandler.AddListener(() =>
-        {
-            if (bonus.Type == TypeBonus.Money)
-                ContainerSaveerPlayerPrefs.Instance.SaveerData.Money = uiForViewAllBonus.CountBonus;
-            else if (bonus.Type == TypeBonus.Coin)
-                ContainerSaveerPlayerPrefs.Instance.SaveerData.Coins = uiForViewAllBonus.CountBonus;
-        });
     }
 }

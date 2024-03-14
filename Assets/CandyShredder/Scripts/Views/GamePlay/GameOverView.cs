@@ -1,20 +1,23 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GameOverView : MonoBehaviour
+public class GameOverView : InfoBonusesView
 {
-    [SerializeField] private List<AllBonusesView> _allBonusesView;
+    [SerializeField] private Sound _soundActionGameOver;
 
     public void OnGameOver()
     {
+        AudioManager.Instance.PlaySound(_soundActionGameOver.Name);
+        PoolObjects<BonusView>.Clear();
         gameObject.SetActive(true);
     }
 
-    public void ViewCountBonuses(int countMoney, int countCoins)
+    protected override void Start()
     {
-        var viewCoins = _allBonusesView.Find(view => view.BonusType == TypeBonus.Coin);
-        var viewMoney = _allBonusesView.Find(view => view.BonusType == TypeBonus.Money);
-        viewCoins.ViewAllCount(countCoins);
-        viewMoney.ViewAllCount(countMoney);
+        base.Start();
+        _againGame.onClick.AddListener(() =>
+        {
+            gameObject.SetActive(false);
+            ManagerScenes.Instance.LoadAsyncFromCoroutine("Game");
+        });
     }
 }

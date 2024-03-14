@@ -10,7 +10,7 @@ public class PoolObjects<T> where T : MonoBehaviour
     {
         foreach (var currentObject in _objects)
         {
-            if (currentObject.gameObject.activeSelf == false)
+            if (currentObject != null && currentObject.gameObject != null && currentObject.gameObject.activeSelf == false)
             {
                 currentObject.gameObject.SetActive(true);
                 return currentObject;
@@ -32,16 +32,14 @@ public class PoolObjects<T> where T : MonoBehaviour
         return createdObject;
     }
 
-    public static void DisactiveObjects()
+    public static void Clear()
     {
         foreach (var currentObject in _objects)
         {
-            if (currentObject.gameObject.activeSelf)
-                currentObject.gameObject.SetActive(false);
+            if (currentObject != null)
+                GameObject.Destroy(currentObject.gameObject);
         }
+
+        _objects.Clear();
     }
-
-    public static T Find(System.Predicate<T> predicat) => _objects.Find(predicat);
-
-    public static List<T> FindAll(System.Predicate<T> predicat) => _objects.FindAll(predicat);
 }

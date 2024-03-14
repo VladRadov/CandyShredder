@@ -1,16 +1,18 @@
 using System;
-using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 public class BlocksCandyController
 {
     private BlocksCandyView _blocksCandyView;
     private int _currentIndexCandyLine;
+    private CancellationTokenSource _tokenSource;
 
     public BlocksCandyController(BlocksCandyView blocksCandyView)
     {
         _blocksCandyView = blocksCandyView;
         _currentIndexCandyLine = 0;
+        _tokenSource = new CancellationTokenSource();
     }
 
     public void Initialize()
@@ -38,8 +40,14 @@ public class BlocksCandyController
 
         _currentIndexCandyLine += _blocksCandyView.Increment;
 
-        await Task.Delay(TimeSpan.FromSeconds(_blocksCandyView.IncrementPerSecond));
+        await Task.Delay(_blocksCandyView.IncrementPerSecond != -1 ? (int)(_blocksCandyView.IncrementPerSecond * 1000) : -1, _tokenSource.Token);
         BaseUpdate();
+    }
+
+    public void OnResumeGame()
+    {
+        _tokenSource.Cancel();
+        _tokenSource = new CancellationTokenSource();
     }
 
     private void ShowCandyLineStart()
