@@ -12,6 +12,8 @@ public class ItemShopView : MonoBehaviour
     public int Price => _price;
     [HideInInspector]
     public UnityEvent OnPurchasedEventHandler = new UnityEvent();
+    [HideInInspector]
+    public UnityEvent OnEntryItemEventHandler = new UnityEvent();
 
     public virtual void OnBuy()
     {
@@ -42,5 +44,6 @@ public class ItemShopView : MonoBehaviour
     private void OnDestroy()
     {
         OnPurchasedEventHandler.RemoveAllListeners();
+        OnEntryItemEventHandler.RemoveAllListeners();
     }
 }

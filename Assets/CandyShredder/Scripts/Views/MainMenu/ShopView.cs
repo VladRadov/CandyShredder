@@ -17,6 +17,32 @@ public class ShopView : ItemView
             item.OnPurchasedEventHandler.AddListener(UpdateViewMoney);
 
         UpdateViewMoney();
+        SubscribeOnEntryItem();
+    }
+
+    private void SubscribeOnEntryItem()
+    {
+        var backgrounds = _items.FindAll(item => item is BackgroundShopView);
+        foreach (BackgroundShopView background in backgrounds)
+            background.OnEntryItemEventHandler.AddListener(() =>
+            {
+                foreach (BackgroundShopView backgroundSubscriber in backgrounds)
+                {
+                    if (ContainerSaveerPlayerPrefs.Instance.SaveerData.CurrentBackground == backgroundSubscriber.Name)
+                        backgroundSubscriber.SetFocusItem(false);
+                }
+            });
+
+        var sounds = _items.FindAll(item => item is SoundView);
+        foreach (SoundView sound in sounds)
+            sound.OnEntryItemEventHandler.AddListener(() =>
+            {
+                foreach (SoundView soundSubsccriber in sounds)
+                {
+                    if (ContainerSaveerPlayerPrefs.Instance.SaveerData.CurrentSound == soundSubsccriber.Name)
+                        soundSubsccriber.SetFocusItem(false);
+                }
+            });
     }
 
     private void UpdateViewMoney() =>

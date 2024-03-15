@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine; 
 using UnityEngine.UI;
 
 public class SoundView : ItemShopView
@@ -11,6 +9,9 @@ public class SoundView : ItemShopView
     [SerializeField] private Sound _sound;
     [SerializeField] private Button _entrySound;
     [SerializeField] private Button _playCheck;
+    [SerializeField] private Image _imageBackground;
+
+    public string Name => _sound.Name;
 
     public override void OnBuy()
     {
@@ -18,18 +19,17 @@ public class SoundView : ItemShopView
             return;
 
         SetSpriteButton(_purchased);
-        SetEnableButtonBuy(true);
+        SetEnableButtonBuy(false);
+        _entrySound.enabled = true;
 
         if (ContainerSaveerPlayerPrefs.Instance.SaveerData.PurchasedSounds != "Standart")
             ContainerSaveerPlayerPrefs.Instance.SaveerData.PurchasedSounds += "," + _sound.Name;
         else
             ContainerSaveerPlayerPrefs.Instance.SaveerData.PurchasedSounds = _sound.Name;
 
-        ContainerSaveerPlayerPrefs.Instance.SaveerData.CurrentSound = _sound.Name;
         ContainerSaveerPlayerPrefs.Instance.SaveerData.Money -= Price;
-        OnPurchasedEventHandler?.Invoke();
 
-        _entrySound.onClick.AddListener(() => { ContainerSaveerPlayerPrefs.Instance.SaveerData.CurrentSound = _sound.Name; });
+        OnPurchasedEventHandler?.Invoke();
     }
 
     protected override void Start()
@@ -41,17 +41,36 @@ public class SoundView : ItemShopView
             _entrySound.enabled = true;
             SetSpriteButton(_purchased);
             SetEnableButtonBuy(false);
-            _entrySound.onClick.AddListener(() => { ContainerSaveerPlayerPrefs.Instance.SaveerData.CurrentSound = _sound.Name; });
         }
         else
             _entrySound.enabled = false;
 
+        if (ContainerSaveerPlayerPrefs.Instance.SaveerData.CurrentSound == _sound.Name)
+            SetFocusItem(true);
+
+        OnPurchasedEventHandler.AddListener(() =>
+        {
+            if(ContainerSaveerPlayerPrefs.Instance.SaveerData.CurrentSound == _sound.Name)
+                SetFocusItem(false);
+        });
+        _entrySound.onClick.AddListener(() =>
+        {
+            OnEntryItemEventHandler?.Invoke();
+            SetFocusItem(true);
+            ContainerSaveerPlayerPrefs.Instance.SaveerData.CurrentSound = _sound.Name;
+        });
         base.Start();
     }
+
+    public void SetFocusItem(bool value) =>
+    _imageBackground.color = value ? new Color(0.3568628f, 0.3568628f, 0.3568628f, 1) : new Color(1, 1, 1, 1);
 
     private void OnValidate()
     {
         if (_entrySound == null)
             _entrySound = GetComponent<Button>();
+
+        if (_imageBackground == null)
+            _imageBackground = GetComponent<Image>();
     }
 }
