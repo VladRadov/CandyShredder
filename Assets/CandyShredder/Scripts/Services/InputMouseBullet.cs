@@ -10,11 +10,15 @@ public class InputMouseBullet : BaseInputManager<Vector2>
 
     public void UpdateInput()
     {
-        if (Input.GetMouseButtonDown(0) || Input.touches.Length != 0)
-        {
-            var pointClick = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)_transform.position;
-            InputEventHandler?.Invoke(pointClick);
-        }
+        Vector2 targetPosition = Vector2.zero;
+
+        if (Input.GetMouseButtonDown(0))
+            targetPosition = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)_transform.position;
+            
+        if(Input.touches.Length != 0)
+            targetPosition = (Vector2)Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position) - (Vector2)_transform.position;
+
+        InputEventHandler?.Invoke(targetPosition);
     }
 
     public void OnMouseFromPlatform(bool isMouseOnPlatform)
