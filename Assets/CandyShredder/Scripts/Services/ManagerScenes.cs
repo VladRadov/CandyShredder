@@ -49,10 +49,4 @@ public class ManagerScenes : MonoBehaviour
             yield return null;
         }
     }
-
-    private void OnDestroy()
-    {
-        LoadingSceneEventHandler.RemoveAllListeners();
-        StartLoadingSceneEventHandler.RemoveAllListeners();
-    }
 }

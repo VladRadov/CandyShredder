@@ -8,7 +8,7 @@ public class ContainerSaveerPlayerPrefs : MonoBehaviour
     private void Awake()
     {
         SaveerData = new SaveerDataInPlayerPrefs();
-
+        SaveerData.Money = 5006;
         if (Instance != null)
             Destroy(this.gameObject);
         else

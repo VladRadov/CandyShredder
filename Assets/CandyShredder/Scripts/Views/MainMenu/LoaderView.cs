@@ -71,9 +71,4 @@ public class LoaderView : MonoBehaviour
             await Task.Delay(20);
         }
     }
-
-    private void OnDestroy()
-    {
-        FinishLoadingSceneEventHandler.RemoveAllListeners();
-    }
 }

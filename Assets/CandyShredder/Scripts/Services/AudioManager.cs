@@ -16,19 +16,23 @@ public class AudioManager : MonoBehaviour
     private void Awake()
     {
         if (Instance != null)
-            Destroy(this.gameObject);
-        else
-        {
-            Instance = this;
-            DontDestroyOnLoad(this);
-        }
+            Destroy(Instance);
+
+        Instance = this;
+        DontDestroyOnLoad(this);
     }
 
     private void Start()
     {
-        PlaySound("Menu");
+        SetDefaultTools();
         ManagerScenes.Instance.Loader.FinishLoadingSceneEventHandler.AddListener(ChangeSound);
         ManagerScenes.Instance.StartLoadingSceneEventHandler.AddListener(StopSound);
+    }
+
+    private void SetDefaultTools()
+    {
+        ContainerSaveerPlayerPrefs.Instance.SaveerData.IsTurnMusic = ContainerSaveerPlayerPrefs.Instance.SaveerData.IsTurnMusic;
+        ContainerSaveerPlayerPrefs.Instance.SaveerData.IsTurnSound = ContainerSaveerPlayerPrefs.Instance.SaveerData.IsTurnSound;
     }
 
     public void ChangeSound()
