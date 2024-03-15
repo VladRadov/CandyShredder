@@ -4,20 +4,33 @@ using UnityFigmaBridge.Runtime.UI;
 
 public class CandyView : MonoBehaviour
 {
-    private Transform _transform;
-
     [SerializeField] private FigmaImage _image;
+    [SerializeField] private BoxCollider2D _boxCollider2D;
 
     public UnityEvent<Transform> BrokeCandyEventHandler = new UnityEvent<Transform>();
 
     public void SetImage(Sprite spriteImage) => _image.sprite = spriteImage;
 
-    public void SetActive(bool value) => _transform.gameObject.SetActive(value);
+    public void SetActive(bool value)
+    {
+        _image.gameObject.SetActive(value);
+        _boxCollider2D.enabled = value;
+
+        if (value == true)
+        {
+            if (gameObject.activeSelf == false)
+                gameObject.SetActive(true);
+        }
+    }
+
+    public bool IsActive() =>
+        _image.gameObject.activeSelf && _boxCollider2D.enabled;
 
     private void Awake()
     {
-        _transform = transform;
+        SetActive(false);
     }
+
 
     private void Start()
     {
@@ -39,6 +52,9 @@ public class CandyView : MonoBehaviour
 
         if (boxCollider != null)
             boxCollider.size = new Vector2(24, 24);
+
+        if (_boxCollider2D == null)
+            _boxCollider2D = GetComponent<BoxCollider2D>();
     }
 
     private void OnDestroy()

@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
         _platformController.Initialize();
 
         _bulletController = new BulletController();
-        _bulletController.CreateBullets(_bulletViewPrefab, _background.transform);
+        _bulletController.CreateBullets(_bulletViewPrefab, _background.transform, _platformView.transform.position);
 
         _bonusController = new BonusController(_bonuses, _platformView.transform, _background.transform);
         _bonusController.SetViewAllBonuses(_allBonusesView);
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
         _inputMouseBullet.InputEventHandler.AddListener(_bulletController.OnInputEvent);
         _platformView.Input.OnMouseFromPlatformEventHandler.AddListener(_inputMouseBullet.OnMouseFromPlatform);
         _platform.OnUpdatePositionEventHandler.AddListener(_bulletController.OnChangePostionPlatform);
-        _platformView.OnGameOverEvetHandler.AddListener(() => 
+        _platformView.OnGameOverEvetHandler.AddListener(() =>
         {
             var coinsView = _allBonusesView.Find(bonuseView => bonuseView.BonusType == TypeBonus.Coin);
             var moneyView = _allBonusesView.Find(bonuseView => bonuseView.BonusType == TypeBonus.Money);

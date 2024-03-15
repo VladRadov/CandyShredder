@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,7 +14,6 @@ public class BlocksCandyController
 
     public void Initialize()
     {
-        InvisibleCandyLine();
         SortCandyLine();
         ShowCandyLineStart();
         BaseUpdate();
@@ -68,8 +66,6 @@ public class BlocksCandyController
                     candy.SetImage(_blocksCandyView.GetRandomCandyImage());
                     candy.SetActive(true);
                 }
-
-                blockCandyLine.CandyLines[indexCandyLine].SetActiveCandyLine(true);
             }
         }
     }
@@ -86,15 +82,6 @@ public class BlocksCandyController
                 {
                     return candyLine1.NumberLine.CompareTo(candyLine2.NumberLine);
                 });
-        }
-    }
-
-    private void InvisibleCandyLine()
-    {
-        foreach (var blockCandyLine in _blocksCandyView.ListCandyLine)
-        {
-            for (int i = 0; i < blockCandyLine.CandyLines.Count; i++)
-                blockCandyLine.CandyLines[i].SetActiveCandyLine(false);
         }
     }
 }

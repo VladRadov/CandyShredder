@@ -21,12 +21,14 @@ public class BulletController
             findedBullet.UpdateVelocity(value);
     }
 
-    public void CreateBullets(BulletView bulletViewPrefab, Transform parent)
+    public void CreateBullets(BulletView bulletViewPrefab, Transform parent, Vector2 positionPlatform)
     {
         for (int i = 0; i < ContainerSaveerPlayerPrefs.Instance.SaveerData.CountBalls; i++)
         {
             var bulletView = Object.Instantiate(bulletViewPrefab, parent);
-            var bullet = new Bullet(bulletView.transform.position);
+            var startPosition = new Vector2(positionPlatform.x, bulletView.transform.position.y);
+            bulletView.transform.position = startPosition;
+            var bullet = new Bullet(startPosition);
             Initialize(bulletView, bullet);
 
             _bulletsView.Add(bulletView);

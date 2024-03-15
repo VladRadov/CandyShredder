@@ -21,8 +21,8 @@ public class ListCandyLineView : MonoBehaviour
             if (_listCandyLine[i] == null)
                 continue;
 
-            if(_listCandyLine[i].gameObject.activeSelf && _listCandyLine[i].TryBrokenAllCandiesInLine() == false)
-                return _listCandyLine.IndexOf(_listCandyLine[i + 1]);
+            if(_listCandyLine[i].TryBrokenAllCandiesInLine() == false)
+                return i + 1 == _listCandyLine.Count ? _listCandyLine.IndexOf(_listCandyLine[i]) : _listCandyLine.IndexOf(_listCandyLine[i + 1]);
         }
 
         return 0;

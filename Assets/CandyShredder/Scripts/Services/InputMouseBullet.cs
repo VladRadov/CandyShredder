@@ -10,7 +10,7 @@ public class InputMouseBullet : BaseInputManager<Vector2>
 
     public void UpdateInput()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.touches.Length != 0)
         {
             var pointClick = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)_transform.position;
             InputEventHandler?.Invoke(pointClick);

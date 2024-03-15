@@ -5,15 +5,13 @@ using UnityEngine.Events;
 
 public class CandyLineView : MonoBehaviour
 {
-    private Transform _transform;
-
     [SerializeField] private List<CandyView> _candies;
     [SerializeField] private int _numberLine;
 
     public int NumberLine => _numberLine;
     public List<CandyView> Candies => _candies;
 
-    public void SetActiveCandyLine(bool value) => _transform.gameObject.SetActive(value);
+    public void SetActiveCandyLine(bool value) => transform.gameObject.SetActive(value);
 
     public void AddListenerBrokenCandy(UnityAction<Transform> action)
     {
@@ -25,16 +23,11 @@ public class CandyLineView : MonoBehaviour
     {
         foreach (var candy in _candies)
         {
-            if (candy.gameObject.activeSelf)
+            if (candy.IsActive())
                 return false;
         }
 
         return true;
-    }
-
-    private void Awake()
-    {
-        _transform = transform;
     }
 
     private void OnValidate()
