@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class ContainerSaveerPlayerPrefs : MonoBehaviour
 {
-    [SerializeField] private int _money;
-
     public static ContainerSaveerPlayerPrefs Instance { get; private set; }
     public SaveerDataInPlayerPrefs SaveerData { get; private set; }
 
@@ -18,7 +16,5 @@ public class ContainerSaveerPlayerPrefs : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(Instance);
         }
-
-        SaveerData.Money = _money;
     }
 }

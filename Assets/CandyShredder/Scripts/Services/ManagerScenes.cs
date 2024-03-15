@@ -24,21 +24,20 @@ public class ManagerScenes : MonoBehaviour
     private void Awake()
     {
         if (Instance != null)
-            Destroy(this.gameObject);
-        else
-        {
-            Instance = this;
-            DontDestroyOnLoad(this);
-            _loaderView.Subscribe();
-        }
+            Destroy(Instance.gameObject);
+
+        Instance = this;
+        DontDestroyOnLoad(this);
+        _loaderView.Subscribe();
         _isLoadedScene = false;
     }
 
     private IEnumerator LoadAsync(string nameScene)
-    {
+    {   
         _isLoadedScene = false;
         var operation = SceneManager.LoadSceneAsync(nameScene, LoadSceneMode.Single);
         StartLoadingSceneEventHandler?.Invoke();
+
         while (operation.progress <= 1)
         {
             var progressInPercent = (int)(operation.progress * 100);

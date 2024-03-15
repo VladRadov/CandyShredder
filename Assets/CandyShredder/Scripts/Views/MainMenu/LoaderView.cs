@@ -8,9 +8,8 @@ using System.Collections.Generic;
 public class LoaderView : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _viewPercent;
-    [SerializeField] private Canvas _canvas;
-    [SerializeField] private List<GameObject> _blocksProgressBar;
- 
+    [SerializeField] private List<BlockProgressBarView> _blocksProgressBar;
+
     [HideInInspector]
     public UnityEvent FinishLoadingSceneEventHandler = new UnityEvent();
 
@@ -31,7 +30,11 @@ public class LoaderView : MonoBehaviour
     {
         ManagerScenes.Instance.LoadingSceneEventHandler.AddListener((valuePercent) => { UpdatePercentLoading(valuePercent); });
         ManagerScenes.Instance.StartLoadingSceneEventHandler.AddListener(() => { SetActive(true); });
-        FinishLoadingSceneEventHandler.AddListener(() => { SetActive(false); });
+        FinishLoadingSceneEventHandler.AddListener(() =>
+        {
+            SetActive(false);
+            _viewPercent.text = "0%";
+        });
         FinishLoadingSceneEventHandler.AddListener(ManagerScenes.Instance.SetLoadedScene);
         FinishLoadingSceneEventHandler.AddListener(HideBlocksProgressLoader);
     }
@@ -40,8 +43,11 @@ public class LoaderView : MonoBehaviour
     {
         for (int i = 0; i < (valuePercent * _blocksProgressBar.Count) / 100; i++)
         {
-            if(i < _blocksProgressBar.Count)
-                _blocksProgressBar[i].SetActive(true);
+            if (i < _blocksProgressBar.Count)
+            {
+                if (_blocksProgressBar[i] != null)
+                    _blocksProgressBar[i].SetActive(true);
+            }
         }
     }
 
@@ -64,12 +70,6 @@ public class LoaderView : MonoBehaviour
             UpdatePercentLoading(i);
             await Task.Delay(20);
         }
-    }
-
-    private void OnValidate()
-    {
-        if (_canvas == null)
-            _canvas = GetComponent<Canvas>();
     }
 
     private void OnDestroy()
